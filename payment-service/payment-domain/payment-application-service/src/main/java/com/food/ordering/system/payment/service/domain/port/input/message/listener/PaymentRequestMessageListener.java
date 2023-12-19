@@ -1,4 +1,4 @@
-package com.food.ordering.system.payment.service.domain.ports.input.message.listener;
+package com.food.ordering.system.payment.service.domain.port.input.message.listener;
 
 import com.food.ordering.system.payment.service.domain.dto.PaymentRequest;
 

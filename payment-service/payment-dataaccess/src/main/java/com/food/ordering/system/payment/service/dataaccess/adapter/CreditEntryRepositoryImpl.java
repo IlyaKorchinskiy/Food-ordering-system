@@ -5,7 +5,7 @@ import com.food.ordering.system.payment.service.dataaccess.entity.CreditEntryEnt
 import com.food.ordering.system.payment.service.dataaccess.mapper.CreditEntryDataAccessMapper;
 import com.food.ordering.system.payment.service.dataaccess.repository.CreditEntryJpaRepository;
 import com.food.ordering.system.payment.service.domain.entity.CreditEntry;
-import com.food.ordering.system.payment.service.domain.ports.output.repository.CreditEntryRepository;
+import com.food.ordering.system.payment.service.domain.port.output.repository.CreditEntryRepository;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
