@@ -1,4 +1,4 @@
-package com.food.ordering.system.order.service.dataaccess.entity;
+package com.food.ordering.system.dataaccess.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,15 +14,17 @@ import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.UUID;
 
-@Entity
-@Table(name = "order_restaurant_m_view", schema = "restaurant")
-@IdClass(RestaurantEntityId.class)
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RestaurantEntity { // странный ентити, это скорее RestaurantProductEntity
+@Entity
+@Table(name = "order_restaurant_m_view", schema = "restaurant")
+@IdClass(RestaurantEntityId.class)
+public class RestaurantEntity {
+    // todo странный ентити, это скорее RestaurantProductEntity
+    // todo общий ентити для разных сервисов - бредятина
 
     @Id
     private UUID restaurantId;
@@ -34,6 +36,7 @@ public class RestaurantEntity { // странный ентити, это ско�
     private Boolean restaurantActive;
     private String productName;
     private BigDecimal productPrice;
+    private Boolean productAvailable;
 
     @Override
     public boolean equals(Object o) {

@@ -24,6 +24,7 @@ public class OrderCreateHelper {
 
     private final OrderDomainService orderDomainService;
     private final OrderRepository orderRepository;
+    // todo не должно быть здесь ни customerRepository, ни restaurantRepository
     private final CustomerRepository customerRepository;
     private final RestaurantRepository restaurantRepository;
     private final OrderDataMapper orderDataMapper;

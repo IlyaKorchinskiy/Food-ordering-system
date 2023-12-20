@@ -6,5 +6,6 @@ import java.util.Optional;
 
 public interface RestaurantRepository {
 
+    // todo странный метод, искать ресторан по ресторану
     Optional<Restaurant> findRestaurantInformation(Restaurant restaurant);
 }

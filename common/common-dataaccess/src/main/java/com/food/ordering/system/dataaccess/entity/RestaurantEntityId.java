@@ -1,4 +1,4 @@
-package com.food.ordering.system.order.service.dataaccess.entity;
+package com.food.ordering.system.dataaccess.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
