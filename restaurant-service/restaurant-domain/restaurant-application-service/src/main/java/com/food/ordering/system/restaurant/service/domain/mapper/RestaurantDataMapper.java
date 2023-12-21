@@ -5,9 +5,9 @@ import com.food.ordering.system.domain.valueobject.OrderId;
 import com.food.ordering.system.domain.valueobject.OrderStatus;
 import com.food.ordering.system.domain.valueobject.RestaurantId;
 import com.food.ordering.system.restaurant.service.domain.dto.RestaurantApprovalRequest;
-import com.ood.ordering.system.restaurant.service.domain.entity.OrderDetail;
-import com.ood.ordering.system.restaurant.service.domain.entity.Product;
-import com.ood.ordering.system.restaurant.service.domain.entity.Restaurant;
+import com.food.ordering.system.restaurant.service.domain.entity.OrderDetail;
+import com.food.ordering.system.restaurant.service.domain.entity.Product;
+import com.food.ordering.system.restaurant.service.domain.entity.Restaurant;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;

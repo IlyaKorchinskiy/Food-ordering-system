@@ -1,15 +1,13 @@
 DROP SCHEMA IF EXISTS "order" CASCADE;
-
 CREATE SCHEMA "order";
 
 CREATE
-EXTENSION IF NOT EXISTS "uuid-ossp";
+    EXTENSION IF NOT EXISTS "uuid-ossp";
 
 DROP TYPE IF EXISTS order_status;
-CREATE TYPE order_status AS ENUM('PENDING', 'PAID', 'APPROVED', 'CANCELLED', 'CANCELLING');
+CREATE TYPE order_status AS ENUM ('PENDING', 'PAID', 'APPROVED', 'CANCELLED', 'CANCELLING');
 
 DROP TABLE IF EXISTS "order".orders CASCADE;
-
 CREATE TABLE "order".orders
 (
     id               uuid           NOT NULL,
@@ -23,7 +21,6 @@ CREATE TABLE "order".orders
 );
 
 DROP TABLE IF EXISTS "order".order_items CASCADE;
-
 CREATE TABLE "order".order_items
 (
     id         bigint         NOT NULL,
@@ -40,10 +37,9 @@ ALTER TABLE "order".order_items
         REFERENCES "order".orders (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE CASCADE
-    NOT VALID;
+        NOT VALID;
 
 DROP TABLE IF EXISTS "order".order_addresses CASCADE;
-
 CREATE TABLE "order".order_addresses
 (
     id          uuid                                           NOT NULL,
@@ -59,5 +55,5 @@ ALTER TABLE "order".order_addresses
         REFERENCES "order".orders (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE CASCADE
-    NOT VALID;
+        NOT VALID;
 
