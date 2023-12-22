@@ -10,12 +10,12 @@ CREATE TYPE payment_status AS ENUM ('COMPLETED', 'CANCELLED', 'FAILED');
 DROP TABLE IF EXISTS payment.payments CASCADE;
 CREATE TABLE payment.payments
 (
-    id          uuid                     NOT NULL,
-    customer_id uuid                     NOT NULL,
-    order_id    uuid                     NOT NULL,
-    price       numeric(10, 2)           NOT NULL,
-    status      payment_status           NOT NULL,
-    created_at  timestamp with time zone NOT NULL,
+    id             uuid                     NOT NULL,
+    customer_id    uuid                     NOT NULL,
+    order_id       uuid                     NOT NULL,
+    price          numeric(10, 2)           NOT NULL,
+    payment_status payment_status           NOT NULL,
+    created_at     timestamp with time zone NOT NULL,
     CONSTRAINT payments_pkey PRIMARY KEY (id)
 );
 
@@ -34,9 +34,9 @@ CREATE TYPE transaction_type AS ENUM ('DEBIT', 'CREDIT');
 DROP TABLE IF EXISTS payment.credit_history CASCADE;
 CREATE TABLE payment.credit_history
 (
-    id          uuid             NOT NULL,
-    customer_id uuid             NOT NULL,
-    amount      numeric(10, 2)   NOT NULL,
-    type        transaction_type NOT NULL,
+    id               uuid             NOT NULL,
+    customer_id      uuid             NOT NULL,
+    amount           numeric(10, 2)   NOT NULL,
+    transaction_type transaction_type NOT NULL,
     CONSTRAINT credit_history_pkey PRIMARY KEY (id)
 );

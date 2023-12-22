@@ -19,10 +19,10 @@ CREATE TYPE approval_status AS ENUM ('APPROVED', 'REJECTED');
 DROP TABLE IF EXISTS restaurant.order_approvals CASCADE;
 CREATE TABLE restaurant.order_approvals
 (
-    id            uuid            NOT NULL,
-    restaurant_id uuid            NOT NULL,
-    order_id      uuid            NOT NULL,
-    status        approval_status NOT NULL,
+    id                    uuid            NOT NULL,
+    restaurant_id         uuid            NOT NULL,
+    order_id              uuid            NOT NULL,
+    order_approval_status approval_status NOT NULL,
     CONSTRAINT order_approvals_pkey PRIMARY KEY (id)
 );
 

@@ -35,7 +35,7 @@ public class RestaurantApprovalResponseKafkaListener implements KafkaConsumer<Re
     public void receive(
             @Payload List<RestaurantApprovalResponseAvroModel> messages,
             @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) List<String> keys,
-            @Header(KafkaHeaders.PARTITION_ID) List<Integer> partitions,
+            @Header(KafkaHeaders.RECEIVED_PARTITION_ID) List<Integer> partitions,
             @Header(KafkaHeaders.OFFSET) List<Long> offsets) {
         log.info(
                 "{} number of payment responses received with keys: {}, partitions: {}, offsets: {}",

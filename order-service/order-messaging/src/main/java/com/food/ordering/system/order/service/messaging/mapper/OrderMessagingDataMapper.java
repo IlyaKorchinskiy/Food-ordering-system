@@ -62,7 +62,7 @@ public class OrderMessagingDataMapper {
                 .setRestaurantOrderStatus(RestaurantOrderStatus.PAID)
                 .setProducts(order.getItems().stream()
                         .map(orderItem -> Product.newBuilder()
-                                .setId(orderItem.getId().getValue().toString())
+                                .setId(orderItem.getProduct().getId().getValue().toString())
                                 .setQuantity(orderItem.getQuantity())
                                 .build())
                         .collect(Collectors.toList()))
