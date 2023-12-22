@@ -33,7 +33,8 @@ public class OrderController {
                 "Creating order for customer: {} at restaurant: {}",
                 createOrderCommand.getCustomerId(),
                 createOrderCommand.getRestaurantId());
-        // todo web dto идет напрямую в domain, неправильно сделано, должен быть маппинг здесь в доменную модель
+        // todo web dto идет напрямую в domain, возможно должен быть маппинг здесь в доменную модель
+        // хотя orderApplicationService - это порт именно для рест
         CreateOrderResponse createOrderResponse = orderApplicationService.createOrder(createOrderCommand);
         log.info("Order created with tracking id: {}", createOrderResponse.getOrderTrackingId());
         return ResponseEntity.ok(createOrderResponse);
