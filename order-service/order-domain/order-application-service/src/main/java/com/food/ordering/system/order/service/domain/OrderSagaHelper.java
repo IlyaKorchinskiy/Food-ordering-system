@@ -1,6 +1,8 @@
 package com.food.ordering.system.order.service.domain;
 
+import com.food.orderin.system.saga.SagaStatus;
 import com.food.ordering.system.domain.valueobject.OrderId;
+import com.food.ordering.system.domain.valueobject.OrderStatus;
 import com.food.ordering.system.order.service.domain.entity.Order;
 import com.food.ordering.system.order.service.domain.exception.OrderNotFoundException;
 import com.food.ordering.system.order.service.domain.port.output.repository.OrderRepository;
@@ -22,7 +24,7 @@ public class OrderSagaHelper {
         this.orderRepository = orderRepository;
     }
 
-    public Order findOrder(String orderId) {
+    Order findOrder(String orderId) {
         Optional<Order> optionalOrder = orderRepository.findByOrderId(new OrderId(UUID.fromString(orderId)));
         if (optionalOrder.isEmpty()) {
             log.error("Order with id: {} could not be found.", orderId);
@@ -31,7 +33,27 @@ public class OrderSagaHelper {
         return optionalOrder.get();
     }
 
-    public void saveOrder(Order order) {
+    void saveOrder(Order order) {
         orderRepository.saveOrder(order);
+    }
+
+    SagaStatus orderStatusToSagaStatus(OrderStatus orderStatus) {
+        switch (orderStatus) {
+            case PAID -> {
+                return SagaStatus.PROCESSING;
+            }
+            case APPROVED -> {
+                return SagaStatus.SUCCEEDED;
+            }
+            case CANCELLING -> {
+                return SagaStatus.COMPENSATING;
+            }
+            case CANCELLED -> {
+                return SagaStatus.COMPENSATED;
+            }
+            default -> {
+                return SagaStatus.STARTED;
+            }
+        }
     }
 }
