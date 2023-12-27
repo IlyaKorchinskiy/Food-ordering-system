@@ -1,4 +1,4 @@
-package com.food.orderin.system.saga;
+package com.food.ordering.system.saga;
 
 public final class SagaConstants {
 

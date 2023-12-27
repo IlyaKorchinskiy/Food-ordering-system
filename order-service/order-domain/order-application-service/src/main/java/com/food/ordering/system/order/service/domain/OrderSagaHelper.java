@@ -1,6 +1,6 @@
 package com.food.ordering.system.order.service.domain;
 
-import com.food.orderin.system.saga.SagaStatus;
+import com.food.ordering.system.saga.SagaStatus;
 import com.food.ordering.system.domain.valueobject.OrderId;
 import com.food.ordering.system.domain.valueobject.OrderStatus;
 import com.food.ordering.system.order.service.domain.entity.Order;
@@ -38,22 +38,12 @@ public class OrderSagaHelper {
     }
 
     SagaStatus orderStatusToSagaStatus(OrderStatus orderStatus) {
-        switch (orderStatus) {
-            case PAID -> {
-                return SagaStatus.PROCESSING;
-            }
-            case APPROVED -> {
-                return SagaStatus.SUCCEEDED;
-            }
-            case CANCELLING -> {
-                return SagaStatus.COMPENSATING;
-            }
-            case CANCELLED -> {
-                return SagaStatus.COMPENSATED;
-            }
-            default -> {
-                return SagaStatus.STARTED;
-            }
-        }
+        return switch (orderStatus) {
+            case PAID -> SagaStatus.PROCESSING;
+            case APPROVED -> SagaStatus.SUCCEEDED;
+            case CANCELLING -> SagaStatus.COMPENSATING;
+            case CANCELLED -> SagaStatus.COMPENSATED;
+            default -> SagaStatus.STARTED;
+        };
     }
 }

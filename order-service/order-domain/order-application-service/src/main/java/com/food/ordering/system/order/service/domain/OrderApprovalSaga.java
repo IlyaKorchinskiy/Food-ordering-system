@@ -1,6 +1,6 @@
 package com.food.ordering.system.order.service.domain;
 
-import com.food.orderin.system.saga.SagaStep;
+import com.food.ordering.system.saga.SagaStep;
 import com.food.ordering.system.domain.events.EmptyEvent;
 import com.food.ordering.system.order.service.domain.dto.message.RestaurantApprovalResponse;
 import com.food.ordering.system.order.service.domain.entity.Order;

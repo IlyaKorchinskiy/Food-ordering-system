@@ -2,7 +2,7 @@ package com.food.ordering.system.order.service.domain.outbox.scheduler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.food.orderin.system.saga.SagaStatus;
+import com.food.ordering.system.saga.SagaStatus;
 import com.food.ordering.system.domain.valueobject.OrderStatus;
 import com.food.ordering.system.order.service.domain.exception.OrderDomainException;
 import com.food.ordering.system.order.service.domain.outbox.model.OrderPaymentEventPayload;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static com.food.orderin.system.saga.SagaConstants.ORDER_SAGA_NAME;
+import static com.food.ordering.system.saga.SagaConstants.ORDER_SAGA_NAME;
 
 @Slf4j
 @Component
