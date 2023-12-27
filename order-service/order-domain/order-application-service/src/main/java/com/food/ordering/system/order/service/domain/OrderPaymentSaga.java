@@ -61,21 +61,17 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse> {
             return;
         }
         OrderPaymentOutboxMessage paymentOutboxMessage = optionalOrderPaymentOutboxMessage.get();
-
         OrderPaidEvent orderPaidEvent = completePaymentForOrder(paymentResponse);
-
         SagaStatus sagaStatus = orderSagaHelper.orderStatusToSagaStatus(
                 orderPaidEvent.getOrder().getOrderStatus());
         paymentOutboxHelper.save(getUpdatedPaymentOutboxMessage(
                 paymentOutboxMessage, orderPaidEvent.getOrder().getOrderStatus(), sagaStatus));
-
         approvalOutboxHelper.saveOutboxMessage(
                 orderDataMapper.orderPaidEventToOrderApprovalEventPayload(orderPaidEvent),
                 orderPaidEvent.getOrder().getOrderStatus(),
                 sagaStatus,
                 OutboxStatus.STARTED,
                 UUID.fromString(paymentResponse.getSagaId()));
-
         log.info("Order with id: {} is paid", orderPaidEvent.getOrder().getId().getValue());
     }
 
@@ -94,23 +90,21 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse> {
         }
         OrderPaymentOutboxMessage paymentOutboxMessage = optionalOrderPaymentOutboxMessage.get();
         Order order = rollbackPaymentForOrder(paymentResponse);
-
         SagaStatus sagaStatus = orderSagaHelper.orderStatusToSagaStatus(order.getOrderStatus());
         paymentOutboxHelper.save(
                 getUpdatedPaymentOutboxMessage(paymentOutboxMessage, order.getOrderStatus(), sagaStatus));
-
         if (paymentResponse.getPaymentStatus() == PaymentStatus.CANCELLED) {
             approvalOutboxHelper.save(
                     getUpdatedApprovalOutboxMessage(paymentResponse.getSagaId(), order.getOrderStatus(), sagaStatus));
         }
-
         log.info("Order with id: {} is cancelled", order.getId().getValue());
     }
 
     private OrderApprovalOutboxMessage getUpdatedApprovalOutboxMessage(
             String sagaId, OrderStatus orderStatus, SagaStatus sagaStatus) {
         Optional<OrderApprovalOutboxMessage> optionalOrderApprovalOutboxMessage =
-                approvalOutboxHelper.getApprovalOutboxMessageBySagaIdAndSagaStatus(UUID.fromString(sagaId), sagaStatus);
+                approvalOutboxHelper.getApprovalOutboxMessageBySagaIdAndSagaStatus(
+                        UUID.fromString(sagaId), SagaStatus.COMPENSATING);
         if (optionalOrderApprovalOutboxMessage.isEmpty()) {
             throw new OrderDomainException(
                     "Approval outbox message could not be found in " + SagaStatus.COMPENSATING.name() + " status.");
