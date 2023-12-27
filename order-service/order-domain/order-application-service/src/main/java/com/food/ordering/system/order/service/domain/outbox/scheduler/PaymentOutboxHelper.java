@@ -1,7 +1,11 @@
 package com.food.ordering.system.order.service.domain.outbox.scheduler;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.food.orderin.system.saga.SagaStatus;
+import com.food.ordering.system.domain.valueobject.OrderStatus;
 import com.food.ordering.system.order.service.domain.exception.OrderDomainException;
+import com.food.ordering.system.order.service.domain.outbox.model.OrderPaymentEventPayload;
 import com.food.ordering.system.order.service.domain.outbox.model.OrderPaymentOutboxMessage;
 import com.food.ordering.system.order.service.domain.port.output.repository.PaymentOutboxRepository;
 import com.food.ordering.system.outbox.OutboxStatus;
@@ -20,9 +24,11 @@ import static com.food.orderin.system.saga.SagaConstants.ORDER_SAGA_NAME;
 public class PaymentOutboxHelper {
 
     private final PaymentOutboxRepository paymentOutboxRepository;
+    private final ObjectMapper objectMapper;
 
-    public PaymentOutboxHelper(PaymentOutboxRepository paymentOutboxRepository) {
+    public PaymentOutboxHelper(PaymentOutboxRepository paymentOutboxRepository, ObjectMapper objectMapper) {
         this.paymentOutboxRepository = paymentOutboxRepository;
+        this.objectMapper = objectMapper;
     }
 
     @Transactional(readOnly = true)
@@ -50,8 +56,42 @@ public class PaymentOutboxHelper {
     }
 
     @Transactional
+    public void saveOutboxMessage(
+            OrderPaymentEventPayload orderPaymentEventPayload,
+            OrderStatus orderStatus,
+            SagaStatus sagaStatus,
+            OutboxStatus outboxStatus,
+            UUID sagaId) {
+        save(OrderPaymentOutboxMessage.builder()
+                .id(UUID.randomUUID())
+                .outboxStatus(outboxStatus)
+                .orderStatus(orderStatus)
+                .sagaStatus(sagaStatus)
+                .sagaId(sagaId)
+                .type(ORDER_SAGA_NAME)
+                .createdAt(orderPaymentEventPayload.getCreatedAt())
+                .payload(createPayload(orderPaymentEventPayload))
+                .build());
+    }
+
+    @Transactional
     public void deletePaymentOutboxMessagesByOutboxStatusAndSagaStatus(
             OutboxStatus outboxStatus, SagaStatus... sagaStatuses) {
         paymentOutboxRepository.deleteByTypeAndOutboxStatusAndSagaStatus(ORDER_SAGA_NAME, outboxStatus, sagaStatuses);
+    }
+
+    private String createPayload(OrderPaymentEventPayload orderPaymentEventPayload) {
+        try {
+            return objectMapper.writeValueAsString(orderPaymentEventPayload);
+        } catch (JsonProcessingException e) {
+            log.error(
+                    "Couldn't create OrderPaymentEventPayload object for order id: {}",
+                    orderPaymentEventPayload.getOrderId(),
+                    e);
+            throw new OrderDomainException(
+                    "Couldn't create OrderPaymentEventPayload object for order id: "
+                            + orderPaymentEventPayload.getOrderId(),
+                    e);
+        }
     }
 }

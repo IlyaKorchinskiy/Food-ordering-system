@@ -15,5 +15,5 @@ public class OrderPaymentEventPayload {
     private String customerId;
     private BigDecimal price;
     private ZonedDateTime createdAt;
-    private String orderPaymentStatus;
+    private String paymentOrderStatus;
 }
