@@ -51,7 +51,7 @@ public class OrderApprovalSaga implements SagaStep<RestaurantApprovalResponse> {
     @Transactional
     public void process(RestaurantApprovalResponse restaurantApprovalResponse) {
         Optional<OrderApprovalOutboxMessage> optionalOrderApprovalOutboxMessage =
-                approvalOutboxHelper.getApprovalOutboxMessageBySagaIdAndSagaStatus(
+                approvalOutboxHelper.getApprovalOutboxMessageBySagaIdAndSagaStatuses(
                         UUID.fromString(restaurantApprovalResponse.getSagaId()), SagaStatus.PROCESSING);
         if (optionalOrderApprovalOutboxMessage.isEmpty()) {
             log.info(
@@ -72,7 +72,7 @@ public class OrderApprovalSaga implements SagaStep<RestaurantApprovalResponse> {
     @Transactional
     public void rollback(RestaurantApprovalResponse restaurantApprovalResponse) {
         Optional<OrderApprovalOutboxMessage> optionalOrderApprovalOutboxMessage =
-                approvalOutboxHelper.getApprovalOutboxMessageBySagaIdAndSagaStatus(
+                approvalOutboxHelper.getApprovalOutboxMessageBySagaIdAndSagaStatuses(
                         UUID.fromString(restaurantApprovalResponse.getSagaId()), SagaStatus.PROCESSING);
         if (optionalOrderApprovalOutboxMessage.isEmpty()) {
             log.info(
@@ -109,7 +109,7 @@ public class OrderApprovalSaga implements SagaStep<RestaurantApprovalResponse> {
     private OrderPaymentOutboxMessage getUpdatedPaymentOutboxMessage(
             String sagaId, OrderStatus orderStatus, SagaStatus sagaStatus) {
         Optional<OrderPaymentOutboxMessage> optionalOrderPaymentOutboxMessage =
-                paymentOutboxHelper.getPaymentOutboxMessageBySagaIdAndSagaStatus(
+                paymentOutboxHelper.getPaymentOutboxMessageBySagaIdAndSagaStatuses(
                         UUID.fromString(sagaId), SagaStatus.PROCESSING);
         if (optionalOrderPaymentOutboxMessage.isEmpty()) {
             throw new OrderDomainException(

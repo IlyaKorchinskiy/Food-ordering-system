@@ -2,7 +2,7 @@ package com.food.ordering.system.order.service.domain.outbox.scheduler;
 
 import com.food.ordering.system.saga.SagaStatus;
 import com.food.ordering.system.order.service.domain.outbox.model.OrderPaymentOutboxMessage;
-import com.food.ordering.system.order.service.domain.port.output.message.publisher.payment.PaymentRequestMessagePublisher;
+import com.food.ordering.system.order.service.domain.port.output.message.publisher.PaymentRequestMessagePublisher;
 import com.food.ordering.system.outbox.OutboxScheduler;
 import com.food.ordering.system.outbox.OutboxStatus;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +34,7 @@ public class PaymentOutboxScheduler implements OutboxScheduler {
             initialDelayString = "${order-service.outbox-scheduler-initial-delay}")
     public void processOutboxMessage() {
         Optional<List<OrderPaymentOutboxMessage>> optionalMessages =
-                paymentOutboxHelper.getPaymentOutboxMessagesByOutboxStatusAndSagaStatus(
+                paymentOutboxHelper.getPaymentOutboxMessagesByOutboxStatusAndSagaStatuses(
                         OutboxStatus.STARTED, SagaStatus.STARTED, SagaStatus.COMPENSATING);
         if (optionalMessages.isPresent() && !optionalMessages.get().isEmpty()) {
             List<OrderPaymentOutboxMessage> messages = optionalMessages.get();

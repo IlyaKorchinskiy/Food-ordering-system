@@ -12,11 +12,11 @@ public interface ApprovalOutboxRepository {
 
     OrderApprovalOutboxMessage save(OrderApprovalOutboxMessage orderApprovalOutboxMessage);
 
-    Optional<List<OrderApprovalOutboxMessage>> findByTypeAndOutboxStatusAndSagaStatus(
+    Optional<List<OrderApprovalOutboxMessage>> findByTypeAndOutboxStatusAndSagaStatuseses(
             String type, OutboxStatus outboxStatus, SagaStatus... sagaStatuses);
 
-    Optional<OrderApprovalOutboxMessage> findByTypeAndSagaIdAndSagaStatus(
+    Optional<OrderApprovalOutboxMessage> findByTypeAndSagaIdAndSagaStatuses(
             String type, UUID sagaId, SagaStatus... sagaStatuses);
 
-    void deleteByTypeAndOutboxStatusAndSagaStatus(String type, OutboxStatus outboxStatus, SagaStatus... sagaStatuses);
+    void deleteByTypeAndOutboxStatusAndSagaStatuses(String type, OutboxStatus outboxStatus, SagaStatus... sagaStatuses);
 }

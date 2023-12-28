@@ -1,10 +1,10 @@
 package com.food.ordering.system.order.service.domain.outbox.scheduler;
 
-import com.food.ordering.system.saga.SagaStatus;
 import com.food.ordering.system.order.service.domain.outbox.model.OrderApprovalOutboxMessage;
-import com.food.ordering.system.order.service.domain.port.output.message.publisher.restaurantapproval.RestaurantApprovalRequestMessagePublisher;
+import com.food.ordering.system.order.service.domain.port.output.message.publisher.RestaurantApprovalRequestMessagePublisher;
 import com.food.ordering.system.outbox.OutboxScheduler;
 import com.food.ordering.system.outbox.OutboxStatus;
+import com.food.ordering.system.saga.SagaStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -35,7 +35,7 @@ public class RestaurantApprovalOutboxScheduler implements OutboxScheduler {
             initialDelayString = "${order-service.outbox-scheduler-initial-delay}")
     public void processOutboxMessage() {
         Optional<List<OrderApprovalOutboxMessage>> optionalMessages =
-                approvalOutboxHelper.getApprovalOutboxMessagesByOutboxStatusAndSagaStatus(
+                approvalOutboxHelper.getApprovalOutboxMessagesByOutboxStatusAndSagaStatuses(
                         OutboxStatus.STARTED, SagaStatus.PROCESSING);
         if (optionalMessages.isPresent() && !optionalMessages.get().isEmpty()) {
             List<OrderApprovalOutboxMessage> messages = optionalMessages.get();

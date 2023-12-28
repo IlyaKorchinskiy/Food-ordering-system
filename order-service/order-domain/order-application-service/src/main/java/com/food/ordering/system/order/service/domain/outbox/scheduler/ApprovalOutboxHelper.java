@@ -2,13 +2,13 @@ package com.food.ordering.system.order.service.domain.outbox.scheduler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.food.ordering.system.saga.SagaStatus;
 import com.food.ordering.system.domain.valueobject.OrderStatus;
 import com.food.ordering.system.order.service.domain.exception.OrderDomainException;
 import com.food.ordering.system.order.service.domain.outbox.model.OrderApprovalEventPayload;
 import com.food.ordering.system.order.service.domain.outbox.model.OrderApprovalOutboxMessage;
 import com.food.ordering.system.order.service.domain.port.output.repository.ApprovalOutboxRepository;
 import com.food.ordering.system.outbox.OutboxStatus;
+import com.food.ordering.system.saga.SagaStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,16 +32,16 @@ public class ApprovalOutboxHelper {
     }
 
     @Transactional(readOnly = true)
-    public Optional<List<OrderApprovalOutboxMessage>> getApprovalOutboxMessagesByOutboxStatusAndSagaStatus(
+    public Optional<List<OrderApprovalOutboxMessage>> getApprovalOutboxMessagesByOutboxStatusAndSagaStatuses(
             OutboxStatus outboxStatus, SagaStatus... sagaStatuses) {
-        return approvalOutboxRepository.findByTypeAndOutboxStatusAndSagaStatus(
+        return approvalOutboxRepository.findByTypeAndOutboxStatusAndSagaStatuseses(
                 ORDER_SAGA_NAME, outboxStatus, sagaStatuses);
     }
 
     @Transactional(readOnly = true)
-    public Optional<OrderApprovalOutboxMessage> getApprovalOutboxMessageBySagaIdAndSagaStatus(
+    public Optional<OrderApprovalOutboxMessage> getApprovalOutboxMessageBySagaIdAndSagaStatuses(
             UUID sagaId, SagaStatus... sagaStatuses) {
-        return approvalOutboxRepository.findByTypeAndSagaIdAndSagaStatus(ORDER_SAGA_NAME, sagaId, sagaStatuses);
+        return approvalOutboxRepository.findByTypeAndSagaIdAndSagaStatuses(ORDER_SAGA_NAME, sagaId, sagaStatuses);
     }
 
     @Transactional
@@ -75,9 +75,10 @@ public class ApprovalOutboxHelper {
     }
 
     @Transactional
-    public void deleteApprovalOutboxMessagesByOutboxStatusAndSagaStatus(
+    public void deleteApprovalOutboxMessagesByOutboxStatusAndSagaStatuses(
             OutboxStatus outboxStatus, SagaStatus... sagaStatuses) {
-        approvalOutboxRepository.deleteByTypeAndOutboxStatusAndSagaStatus(ORDER_SAGA_NAME, outboxStatus, sagaStatuses);
+        approvalOutboxRepository.deleteByTypeAndOutboxStatusAndSagaStatuses(
+                ORDER_SAGA_NAME, outboxStatus, sagaStatuses);
     }
 
     private String createPayload(OrderApprovalEventPayload orderApprovalEventPayload) {

@@ -54,7 +54,7 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse> {
     @Transactional
     public void process(PaymentResponse paymentResponse) {
         Optional<OrderPaymentOutboxMessage> optionalOrderPaymentOutboxMessage =
-                paymentOutboxHelper.getPaymentOutboxMessageBySagaIdAndSagaStatus(
+                paymentOutboxHelper.getPaymentOutboxMessageBySagaIdAndSagaStatuses(
                         UUID.fromString(paymentResponse.getSagaId()), SagaStatus.STARTED);
         if (optionalOrderPaymentOutboxMessage.isEmpty()) {
             log.info("An outbox message with saga id: {} is already processed.", paymentResponse.getSagaId());
@@ -81,7 +81,7 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse> {
     // класс OrderPaymentSaga
     public void rollback(PaymentResponse paymentResponse) {
         Optional<OrderPaymentOutboxMessage> optionalOrderPaymentOutboxMessage =
-                paymentOutboxHelper.getPaymentOutboxMessageBySagaIdAndSagaStatus(
+                paymentOutboxHelper.getPaymentOutboxMessageBySagaIdAndSagaStatuses(
                         UUID.fromString(paymentResponse.getSagaId()),
                         getCurrentSagaStatuses(paymentResponse.getPaymentStatus()));
         if (optionalOrderPaymentOutboxMessage.isEmpty()) {
@@ -103,7 +103,7 @@ public class OrderPaymentSaga implements SagaStep<PaymentResponse> {
     private OrderApprovalOutboxMessage getUpdatedApprovalOutboxMessage(
             String sagaId, OrderStatus orderStatus, SagaStatus sagaStatus) {
         Optional<OrderApprovalOutboxMessage> optionalOrderApprovalOutboxMessage =
-                approvalOutboxHelper.getApprovalOutboxMessageBySagaIdAndSagaStatus(
+                approvalOutboxHelper.getApprovalOutboxMessageBySagaIdAndSagaStatuses(
                         UUID.fromString(sagaId), SagaStatus.COMPENSATING);
         if (optionalOrderApprovalOutboxMessage.isEmpty()) {
             throw new OrderDomainException(

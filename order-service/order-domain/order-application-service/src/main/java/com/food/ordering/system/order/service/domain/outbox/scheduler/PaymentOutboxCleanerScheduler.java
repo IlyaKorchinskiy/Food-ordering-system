@@ -26,7 +26,7 @@ public class PaymentOutboxCleanerScheduler implements OutboxScheduler {
     @Scheduled(cron = "@midnight")
     public void processOutboxMessage() {
         Optional<List<OrderPaymentOutboxMessage>> optionalMessages =
-                paymentOutboxHelper.getPaymentOutboxMessagesByOutboxStatusAndSagaStatus(
+                paymentOutboxHelper.getPaymentOutboxMessagesByOutboxStatusAndSagaStatuses(
                         OutboxStatus.COMPLETED, SagaStatus.SUCCEEDED, SagaStatus.COMPENSATED, SagaStatus.FAILED);
         if (optionalMessages.isPresent()) {
             List<OrderPaymentOutboxMessage> messages = optionalMessages.get();
@@ -34,7 +34,7 @@ public class PaymentOutboxCleanerScheduler implements OutboxScheduler {
                     "Received {} OrderPaymentOutboxMessages to clean-up. The payloads: {}",
                     messages.size(),
                     messages.stream().map(OrderPaymentOutboxMessage::getPayload).collect(Collectors.joining("\n")));
-            paymentOutboxHelper.deletePaymentOutboxMessagesByOutboxStatusAndSagaStatus(
+            paymentOutboxHelper.deletePaymentOutboxMessagesByOutboxStatusAndSagaStatuses(
                     OutboxStatus.COMPLETED, SagaStatus.SUCCEEDED, SagaStatus.COMPENSATED, SagaStatus.FAILED);
             log.info("{} OrderPaymentOutboxMessages deleted.", messages.size());
         }

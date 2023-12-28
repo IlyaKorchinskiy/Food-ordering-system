@@ -32,16 +32,16 @@ public class PaymentOutboxHelper {
     }
 
     @Transactional(readOnly = true)
-    public Optional<List<OrderPaymentOutboxMessage>> getPaymentOutboxMessagesByOutboxStatusAndSagaStatus(
+    public Optional<List<OrderPaymentOutboxMessage>> getPaymentOutboxMessagesByOutboxStatusAndSagaStatuses(
             OutboxStatus outboxStatus, SagaStatus... sagaStatuses) {
-        return paymentOutboxRepository.findByTypeAndOutboxStatusAndSagaStatus(
+        return paymentOutboxRepository.findByTypeAndOutboxStatusAndSagaStatuses(
                 ORDER_SAGA_NAME, outboxStatus, sagaStatuses);
     }
 
     @Transactional(readOnly = true)
-    public Optional<OrderPaymentOutboxMessage> getPaymentOutboxMessageBySagaIdAndSagaStatus(
+    public Optional<OrderPaymentOutboxMessage> getPaymentOutboxMessageBySagaIdAndSagaStatuses(
             UUID sagaId, SagaStatus... sagaStatuses) {
-        return paymentOutboxRepository.findByTypeAndSagaIdAndSagaStatus(ORDER_SAGA_NAME, sagaId, sagaStatuses);
+        return paymentOutboxRepository.findByTypeAndSagaIdAndSagaStatuses(ORDER_SAGA_NAME, sagaId, sagaStatuses);
     }
 
     @Transactional
@@ -75,9 +75,9 @@ public class PaymentOutboxHelper {
     }
 
     @Transactional
-    public void deletePaymentOutboxMessagesByOutboxStatusAndSagaStatus(
+    public void deletePaymentOutboxMessagesByOutboxStatusAndSagaStatuses(
             OutboxStatus outboxStatus, SagaStatus... sagaStatuses) {
-        paymentOutboxRepository.deleteByTypeAndOutboxStatusAndSagaStatus(ORDER_SAGA_NAME, outboxStatus, sagaStatuses);
+        paymentOutboxRepository.deleteByTypeAndOutboxStatusAndSagaStatuses(ORDER_SAGA_NAME, outboxStatus, sagaStatuses);
     }
 
     private String createPayload(OrderPaymentEventPayload orderPaymentEventPayload) {
