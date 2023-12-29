@@ -37,7 +37,7 @@ public class ApprovalOutboxRepositoryImpl implements ApprovalOutboxRepository {
     }
 
     @Override
-    public Optional<List<OrderApprovalOutboxMessage>> findByTypeAndOutboxStatusAndSagaStatuseses(
+    public Optional<List<OrderApprovalOutboxMessage>> findByTypeAndOutboxStatusAndSagaStatuses(
             String type, OutboxStatus outboxStatus, SagaStatus... sagaStatuses) {
         List<OrderApprovalOutboxMessage> approvalOutboxMessages = approvalOutboxJpaRepository
                 .findByTypeAndOutboxStatusAndSagaStatusIn(type, outboxStatus, List.of(sagaStatuses))

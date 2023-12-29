@@ -34,7 +34,7 @@ public class ApprovalOutboxHelper {
     @Transactional(readOnly = true)
     public Optional<List<OrderApprovalOutboxMessage>> getApprovalOutboxMessagesByOutboxStatusAndSagaStatuses(
             OutboxStatus outboxStatus, SagaStatus... sagaStatuses) {
-        return approvalOutboxRepository.findByTypeAndOutboxStatusAndSagaStatuseses(
+        return approvalOutboxRepository.findByTypeAndOutboxStatusAndSagaStatuses(
                 ORDER_SAGA_NAME, outboxStatus, sagaStatuses);
     }
 

@@ -12,7 +12,7 @@ public interface ApprovalOutboxRepository {
 
     OrderApprovalOutboxMessage save(OrderApprovalOutboxMessage orderApprovalOutboxMessage);
 
-    Optional<List<OrderApprovalOutboxMessage>> findByTypeAndOutboxStatusAndSagaStatuseses(
+    Optional<List<OrderApprovalOutboxMessage>> findByTypeAndOutboxStatusAndSagaStatuses(
             String type, OutboxStatus outboxStatus, SagaStatus... sagaStatuses);
 
     Optional<OrderApprovalOutboxMessage> findByTypeAndSagaIdAndSagaStatuses(

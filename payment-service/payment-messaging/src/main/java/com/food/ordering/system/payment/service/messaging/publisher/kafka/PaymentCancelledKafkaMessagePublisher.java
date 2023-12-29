@@ -1,11 +1,11 @@
 package com.food.ordering.system.payment.service.messaging.publisher.kafka;
 
+import com.food.ordering.system.domain.events.publisher.DomainEventPublisher;
 import com.food.ordering.system.kafka.avro.model.PaymentResponseAvroModel;
 import com.food.ordering.system.kafka.producer.service.KafkaMessageHelper;
 import com.food.ordering.system.kafka.producer.service.KafkaProducer;
 import com.food.ordering.system.payment.service.domain.config.PaymentServiceConfigData;
 import com.food.ordering.system.payment.service.domain.event.PaymentCancelledEvent;
-import com.food.ordering.system.payment.service.domain.port.output.message.publisher.PaymentCancelledMessagePublisher;
 import com.food.ordering.system.payment.service.messaging.mapper.PaymentMessagingDataMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -13,7 +13,8 @@ import org.springframework.stereotype.Component;
 // todo выглядит так, что разные паблишеры абсолютно не нужны, так же как и разные модели ивентов
 @Slf4j
 @Component
-public class PaymentCancelledKafkaMessagePublisher implements PaymentCancelledMessagePublisher {
+public class PaymentCancelledKafkaMessagePublisher implements
+    DomainEventPublisher<PaymentCancelledEvent> {
 
     private final PaymentMessagingDataMapper paymentMessagingDataMapper;
     private final KafkaProducer<String, PaymentResponseAvroModel> kafkaProducer;
