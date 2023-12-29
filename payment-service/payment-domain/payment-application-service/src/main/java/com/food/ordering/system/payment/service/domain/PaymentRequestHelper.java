@@ -44,7 +44,7 @@ public class PaymentRequestHelper {
     }
 
     @Transactional
-    public PaymentEvent persistPayment(PaymentRequest paymentRequest) {
+    public void persistPayment(PaymentRequest paymentRequest) {
         log.info(
                 "Received payment complete event for order id: {}", // todo Это необязательно должен быть event...
                 paymentRequest.getOrderId());
@@ -55,11 +55,10 @@ public class PaymentRequestHelper {
         PaymentEvent paymentEvent =
                 paymentDomainService.validateAndInitiatePayment(payment, creditEntry, creditHistories, failureMessages);
         persistDbObjects(payment, failureMessages, creditEntry, creditHistories);
-        return paymentEvent;
     }
 
     @Transactional
-    public PaymentEvent persistCancelPayment(PaymentRequest paymentRequest) {
+    public void persistCancelPayment(PaymentRequest paymentRequest) {
         log.info("Received payment rollback event for order id: {}", paymentRequest.getOrderId());
         Payment payment = getPayment(UUID.fromString(paymentRequest.getOrderId()));
         CreditEntry creditEntry = getCreditEntry(payment.getCustomerId());
@@ -68,7 +67,6 @@ public class PaymentRequestHelper {
         PaymentEvent paymentEvent =
                 paymentDomainService.validateAndCancelPayment(payment, creditEntry, creditHistories, failureMessages);
         persistDbObjects(payment, failureMessages, creditEntry, creditHistories);
-        return paymentEvent;
     }
 
     private void persistDbObjects(
