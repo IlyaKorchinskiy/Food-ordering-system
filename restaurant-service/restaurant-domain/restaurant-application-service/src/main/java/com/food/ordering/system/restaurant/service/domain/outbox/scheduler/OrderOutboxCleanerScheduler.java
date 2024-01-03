@@ -1,8 +1,8 @@
-package com.food.ordering.system.payment.service.domain.outbox.scheduler;
+package com.food.ordering.system.restaurant.service.domain.outbox.scheduler;
 
 import com.food.ordering.system.outbox.OutboxScheduler;
 import com.food.ordering.system.outbox.OutboxStatus;
-import com.food.ordering.system.payment.service.domain.outbox.model.OrderOutboxMessage;
+import com.food.ordering.system.restaurant.service.domain.outbox.model.OrderOutboxMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -31,7 +31,7 @@ public class OrderOutboxCleanerScheduler implements OutboxScheduler {
             List<OrderOutboxMessage> messages = optionalMessages.get();
             log.info("Received {} OrderOutboxMessages to clean-up.", messages.size());
             orderOutboxHelper.deleteOrderOutboxMessagesByOutboxStatus(OutboxStatus.COMPLETED);
-            log.info("{} OrderPaymentOutboxMessages deleted.", messages.size());
+            log.info("{} OrderOutboxMessages deleted.", messages.size());
         }
     }
 }

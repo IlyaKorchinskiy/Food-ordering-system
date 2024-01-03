@@ -1,10 +1,10 @@
 package com.food.ordering.system.restaurant.service.messaging.kafka.publisher;
 
+import com.food.ordering.system.domain.events.publisher.DomainEventPublisher;
 import com.food.ordering.system.kafka.avro.model.RestaurantApprovalResponseAvroModel;
 import com.food.ordering.system.kafka.producer.service.KafkaMessageHelper;
 import com.food.ordering.system.kafka.producer.service.KafkaProducer;
 import com.food.ordering.system.restaurant.service.domain.config.RestaurantServiceConfigData;
-import com.food.ordering.system.restaurant.service.domain.port.output.message.publisher.OrderApprovedMessagePublisher;
 import com.food.ordering.system.restaurant.service.messaging.mapper.RestaurantMessagingDataMapper;
 import com.food.ordering.system.restaurant.service.domain.event.OrderApprovedEvent;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +12,8 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class OrderApprovedKafkaMessagePublisher implements OrderApprovedMessagePublisher {
+public class OrderApprovedKafkaMessagePublisher implements
+    DomainEventPublisher<OrderApprovedEvent> {
 
     private final RestaurantMessagingDataMapper restaurantMessagingDataMapper;
     private final KafkaProducer<String, RestaurantApprovalResponseAvroModel> kafkaProducer;
