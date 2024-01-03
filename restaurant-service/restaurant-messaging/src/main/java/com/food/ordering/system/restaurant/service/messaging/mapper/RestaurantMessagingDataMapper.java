@@ -7,8 +7,7 @@ import com.food.ordering.system.kafka.avro.model.RestaurantApprovalRequestAvroMo
 import com.food.ordering.system.kafka.avro.model.RestaurantApprovalResponseAvroModel;
 import com.food.ordering.system.restaurant.service.domain.dto.RestaurantApprovalRequest;
 import com.food.ordering.system.restaurant.service.domain.entity.Product;
-import com.food.ordering.system.restaurant.service.domain.event.OrderApprovedEvent;
-import com.food.ordering.system.restaurant.service.domain.event.OrderRejectedEvent;
+import com.food.ordering.system.restaurant.service.domain.outbox.model.OrderEventPayload;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -16,46 +15,6 @@ import java.util.stream.Collectors;
 
 @Component
 public class RestaurantMessagingDataMapper {
-
-    public RestaurantApprovalResponseAvroModel orderApprovedEventToRestaurantApprovalResponseAvroModel(
-            OrderApprovedEvent orderApprovedEvent) {
-        return RestaurantApprovalResponseAvroModel.newBuilder()
-                .setId(UUID.randomUUID().toString())
-                .setSagaId("")
-                .setRestaurantId(orderApprovedEvent.getRestaurantId().getValue().toString())
-                .setOrderId(orderApprovedEvent
-                        .getOrderApproval()
-                        .getOrderId()
-                        .getValue()
-                        .toString())
-                .setOrderApprovalStatus(OrderApprovalStatus.valueOf(orderApprovedEvent
-                        .getOrderApproval()
-                        .getOrderApprovalStatus()
-                        .name()))
-                .setCreatedAt(orderApprovedEvent.getCreatedAt().toInstant())
-                .setFailureMessages(orderApprovedEvent.getFailureMessages())
-                .build();
-    }
-
-    public RestaurantApprovalResponseAvroModel orderRejectedEventToRestaurantApprovalResponseAvroModel(
-            OrderRejectedEvent orderRejectedEvent) {
-        return RestaurantApprovalResponseAvroModel.newBuilder()
-                .setId(UUID.randomUUID().toString())
-                .setSagaId("")
-                .setRestaurantId(orderRejectedEvent.getRestaurantId().getValue().toString())
-                .setOrderId(orderRejectedEvent
-                        .getOrderApproval()
-                        .getOrderId()
-                        .getValue()
-                        .toString())
-                .setOrderApprovalStatus(OrderApprovalStatus.valueOf(orderRejectedEvent
-                        .getOrderApproval()
-                        .getOrderApprovalStatus()
-                        .name()))
-                .setCreatedAt(orderRejectedEvent.getCreatedAt().toInstant())
-                .setFailureMessages(orderRejectedEvent.getFailureMessages())
-                .build();
-    }
 
     public RestaurantApprovalRequest restaurantApprovalRequestAvroModelToRestaurantApprovalRequest(
             RestaurantApprovalRequestAvroModel restaurantApprovalRequestAvroModel) {
@@ -75,6 +34,19 @@ public class RestaurantMessagingDataMapper {
                         .collect(Collectors.toList()))
                 .price(restaurantApprovalRequestAvroModel.getPrice())
                 .createdAt(restaurantApprovalRequestAvroModel.getCreatedAt())
+                .build();
+    }
+
+    public RestaurantApprovalResponseAvroModel orderEventPayloadToRestaurantApprovalResponseAvroModel(
+            String sagaId, OrderEventPayload orderEventPayload) {
+        return RestaurantApprovalResponseAvroModel.newBuilder()
+                .setId(UUID.randomUUID().toString())
+                .setRestaurantId(orderEventPayload.getRestaurantId())
+                .setSagaId(sagaId)
+                .setOrderId(orderEventPayload.getOrderId())
+                .setCreatedAt(orderEventPayload.getCreatedAt().toInstant())
+                .setOrderApprovalStatus(OrderApprovalStatus.valueOf(orderEventPayload.getOrderApprovalStatus()))
+                .setFailureMessages(orderEventPayload.getFailureMessages())
                 .build();
     }
 }

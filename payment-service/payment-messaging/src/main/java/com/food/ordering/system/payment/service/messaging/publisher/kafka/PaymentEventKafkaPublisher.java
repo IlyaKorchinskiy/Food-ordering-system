@@ -59,12 +59,12 @@ public class PaymentEventKafkaPublisher implements PaymentResponseMessagePublish
                             orderEventPayload.getOrderId(),
                             "PaymentResponseAvroModel"));
             log.info(
-                    "OrderEventPayload sent to Kafka for order id: {} and saga id: {}",
+                    "PaymentResponseAvroModel sent to Kafka for order id: {} and saga id: {}",
                     orderEventPayload.getOrderId(),
                     sagaId);
         } catch (Exception exception) {
             log.error(
-                    "Error while sending OrderEventPayload message to Kafka with order id: {} and saga id: {}, error: {}",
+                    "Error while sending PaymentResponseAvroModel message to Kafka with order id: {} and saga id: {}, error: {}",
                     orderEventPayload.getOrderId(),
                     sagaId,
                     exception.getMessage());
