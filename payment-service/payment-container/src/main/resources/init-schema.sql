@@ -50,7 +50,7 @@ CREATE TABLE payment.order_outbox
     id             uuid                                           NOT NULL,
     saga_id        uuid                                           NOT NULL,
     created_at     timestamp with time zone                       NOT NULL,
-    processed_at   timestamp with time zone                       NOT NULL,
+    processed_at   timestamp with time zone,
     type           character varying COLLATE pg_catalog."default" NOT NULL,
     payload        jsonb                                          NOT NULL,
     outbox_status  outbox_status                                  NOT NULL,

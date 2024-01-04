@@ -101,7 +101,7 @@ public class OrderDataMapper {
                 .createdAt(orderPaidEvent.getCreatedAt())
                 .products(orderPaidEvent.getOrder().getItems().stream()
                         .map(orderItem -> OrderApprovalEventProduct.builder()
-                                .id(orderItem.getId().getValue().toString())
+                                .id(orderItem.getProduct().getId().getValue().toString())
                                 .quantity(orderItem.getQuantity())
                                 .build())
                         .collect(Collectors.toList()))
