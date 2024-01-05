@@ -17,14 +17,14 @@ import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.UUID;
 
-@Entity
-@Table(name = "order_items")
-@IdClass(OrderItemEntityId.class)
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "order_items")
+@IdClass(OrderItemEntityId.class)
 public class OrderItemEntity {
     @Id
     private Long id;

@@ -15,13 +15,13 @@ import javax.persistence.Table;
 import java.util.Objects;
 import java.util.UUID;
 
-@Entity
-@Table(name = "order_addresses")
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
+@Table(name = "order_addresses")
 public class OrderAddressEntity {
     @Id
     private UUID id;
