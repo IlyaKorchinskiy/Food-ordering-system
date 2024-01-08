@@ -4,7 +4,7 @@ import com.food.ordering.system.kafka.avro.model.OrderApprovalStatus;
 import com.food.ordering.system.kafka.avro.model.RestaurantApprovalResponseAvroModel;
 import com.food.ordering.system.kafka.consumer.KafkaConsumer;
 import com.food.ordering.system.order.service.domain.exception.OrderNotFoundException;
-import com.food.ordering.system.order.service.domain.port.input.message.listener.restaurantapproval.RestaurantApprovalResponseMessageListener;
+import com.food.ordering.system.order.service.domain.port.input.message.listener.RestaurantApprovalResponseMessageListener;
 import com.food.ordering.system.order.service.messaging.mapper.OrderMessagingDataMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.OptimisticLockingFailureException;

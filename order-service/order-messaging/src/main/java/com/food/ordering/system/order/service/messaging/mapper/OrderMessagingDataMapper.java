@@ -2,6 +2,7 @@ package com.food.ordering.system.order.service.messaging.mapper;
 
 import com.food.ordering.system.domain.valueobject.OrderApprovalStatus;
 import com.food.ordering.system.domain.valueobject.PaymentStatus;
+import com.food.ordering.system.kafka.avro.model.CustomerAvroModel;
 import com.food.ordering.system.kafka.avro.model.PaymentOrderStatus;
 import com.food.ordering.system.kafka.avro.model.PaymentRequestAvroModel;
 import com.food.ordering.system.kafka.avro.model.PaymentResponseAvroModel;
@@ -9,6 +10,7 @@ import com.food.ordering.system.kafka.avro.model.Product;
 import com.food.ordering.system.kafka.avro.model.RestaurantApprovalRequestAvroModel;
 import com.food.ordering.system.kafka.avro.model.RestaurantApprovalResponseAvroModel;
 import com.food.ordering.system.kafka.avro.model.RestaurantOrderStatus;
+import com.food.ordering.system.order.service.domain.dto.message.CustomerModel;
 import com.food.ordering.system.order.service.domain.dto.message.PaymentResponse;
 import com.food.ordering.system.order.service.domain.dto.message.RestaurantApprovalResponse;
 import com.food.ordering.system.order.service.domain.outbox.model.OrderApprovalEventPayload;
@@ -82,6 +84,15 @@ public class OrderMessagingDataMapper {
                                 .setQuantity(orderApprovalEventProduct.getQuantity())
                                 .build())
                         .collect(Collectors.toList()))
+                .build();
+    }
+
+    public CustomerModel customerAvroModelToCustomerModel(CustomerAvroModel customerAvroModel) {
+        return CustomerModel.builder()
+                .id(customerAvroModel.getId())
+                .username(customerAvroModel.getUsername())
+                .firstName(customerAvroModel.getFirstName())
+                .lastName(customerAvroModel.getLastName())
                 .build();
     }
 }
