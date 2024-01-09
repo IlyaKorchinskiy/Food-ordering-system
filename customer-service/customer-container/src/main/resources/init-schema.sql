@@ -4,7 +4,7 @@ CREATE SCHEMA customer;
 
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-CREATE TABLE customer.customers
+CREATE TABLE IF NOT EXISTS customer.customers
 (
     id         uuid                                           NOT NULL,
     username   character varying COLLATE pg_catalog."default" NOT NULL,

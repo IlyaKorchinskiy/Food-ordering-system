@@ -2,7 +2,7 @@ DROP SCHEMA IF EXISTS payment CASCADE;
 CREATE SCHEMA payment;
 
 CREATE
-EXTENSION IF NOT EXISTS "uuid-ossp";
+    EXTENSION IF NOT EXISTS "uuid-ossp";
 
 DROP TYPE IF EXISTS payment_status;
 CREATE TYPE payment_status AS ENUM ('COMPLETED', 'CANCELLED', 'FAILED');
@@ -19,8 +19,7 @@ CREATE TABLE payment.payments
     CONSTRAINT payments_pkey PRIMARY KEY (id)
 );
 
-DROP TABLE IF EXISTS payment.credit_entries CASCADE;
-CREATE TABLE payment.credit_entries
+CREATE TABLE IF NOT EXISTS payment.credit_entries
 (
     id                  uuid           NOT NULL,
     customer_id         uuid           NOT NULL,
@@ -31,8 +30,7 @@ CREATE TABLE payment.credit_entries
 DROP TYPE IF EXISTS transaction_type;
 CREATE TYPE transaction_type AS ENUM ('DEBIT', 'CREDIT');
 
-DROP TABLE IF EXISTS payment.credit_history CASCADE;
-CREATE TABLE payment.credit_history
+CREATE TABLE IF NOT EXISTS payment.credit_history
 (
     id               uuid             NOT NULL,
     customer_id      uuid             NOT NULL,
