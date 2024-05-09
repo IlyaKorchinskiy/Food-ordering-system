@@ -7,7 +7,6 @@ import com.food.ordering.system.domain.valueobject.ProductId;
 public class Product extends BaseEntity<ProductId> {
 
   private String name;
-
   private Money price;
 
   public Product(ProductId productId, String name, Money price) {
